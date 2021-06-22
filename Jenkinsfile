@@ -31,8 +31,8 @@ pipeline {
         stage('Plan') {
             steps {
                 sh 'terraform init'
-                sh 'terraform workspace new ${environment}'
-                sh 'terraform workspace select ${environment}'
+//                 sh 'terraform workspace new ${environment}'
+//                 sh 'terraform workspace select ${environment}'
                 sh "terraform plan "
                 
             }
