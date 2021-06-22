@@ -30,18 +30,18 @@ pipeline {
 
         stage('Plan') {
             steps {
-                sh 'terraform init -input=false'
+                sh 'terraform init'
                 sh 'terraform workspace new ${environment}'
                 sh 'terraform workspace select ${environment}'
-                sh "terraform plan -input=false -out tfplan "
-                sh 'terraform show tfplan > tfplan.txt'
+                sh "terraform plan "
+                
             }
         }
        
 
         stage('Apply') {
             steps {
-                sh "terraform apply -input=false tfplan"
+                sh "terraform apply --auto-approve"
             }
         }
     }
