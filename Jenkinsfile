@@ -15,13 +15,13 @@ pipeline {
    agent  any
         
     stages {
-        stage('checkout scm') {
-            steps {
-                 script{
-                         git "https://github.com/aleesha-joji/terraform.git"
-                    }
-                }
-            }
+//         stage('checkout scm') {
+//             steps {
+//                  script{
+//                          git "https://github.com/aleesha-joji/terraform.git"
+//                     }
+//                 }
+//             }
 
         stage('Plan') {
             steps {
