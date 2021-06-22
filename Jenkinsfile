@@ -1,22 +1,44 @@
 pipeline {
-    agent any 
+
+    parameters {
+        string(name: 'environment', defaultValue: 'terraform', description: 'Workspace/environment file to use for deployment')
+        booleanParam(name: 'autoApprove', defaultValue: false, description: 'Automatically run apply after generating plan?')
+
+    }
+
+
+     environment {
+        AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY_ID')
+        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
+    }
+
+   agent  any
         
-    environment {
-        AWS_ACCESS_KEY_ID     = credentials('jenkins-aws-secret-key-id')
-        AWS_SECRET_ACCESS_KEY = credentials('jenkins-aws-secret-access-key')
-    }
     stages {
-        stage('Terraform initialization') {
+        stage('checkout scm') {
             steps {
-                sh 'terraform init'
-                sh 'terraform apply --auto-approve' 
-                
+                 script{
+                         git "https://github.com/aleesha-joji/terraform.git"
+                    }
+                }
+            }
+
+        stage('Plan') {
+            steps {
+                sh 'terraform init -input=false'
+                sh 'terraform workspace new ${environment}'
+                sh 'terraform workspace select ${environment}'
+                sh "terraform plan -input=false -out tfplan "
+                sh 'terraform show tfplan > tfplan.txt'
             }
         }
-        stage('Output_public_ip') {
+       
+
+        stage('Apply') {
             steps {
-                sh 'terraform --version'
+                sh "terraform apply -input=false tfplan"
             }
         }
     }
-}
+
+  }
