@@ -10,9 +10,12 @@ resource "aws_instance" "React_app" {
     tags                         = { "Name" = "ReactApp(Terraform)" }
     key_name                     = "docker-putty"
 }
-output "public_ip" {
-  value = "${aws_instance.React_app.*.public_ip}"
-}
+provisioner "local-exec" {
+    command = "echo ${self.public_ip} >> public_ips.txt"
+  }
+# output "public_ip" {
+#   value = "${aws_instance.React_app.*.public_ip}"
+# }
 
 resource "aws_security_group" "React_app" {
   name           = "ReactApp"
