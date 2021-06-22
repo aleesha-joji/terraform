@@ -16,5 +16,10 @@ agent  any
                sh "terraform apply --auto-approve"
            }
        }
+       stage('Output_public_ip') {
+            steps {
+                sh 'terraform --version'
+            }
+        }
     }
 }
