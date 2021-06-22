@@ -12,7 +12,7 @@ resource "aws_instance" "React_app" {
 }
 
 output "public_ip" {
-  value = "${aws_instance.React_app.*.public_ip} >> public_ip.txt"
+  value = "${aws_instance.React_app.*.public_ip}"
 }
 
 resource "aws_security_group" "React_app" {
