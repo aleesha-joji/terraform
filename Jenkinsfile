@@ -13,12 +13,12 @@ agent  any
        }
        stage('Apply') {
            steps {
-               sh "terraform apply --auto-approve"
+               sh 'terraform apply --auto-approve'
            }
        }
        stage('Output_public_ip') {
             steps {
-                sh 'terraform --version'
+                sh 'terraform output ip'
             }
         }
     }
